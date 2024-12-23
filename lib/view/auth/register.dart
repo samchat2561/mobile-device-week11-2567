@@ -26,6 +26,16 @@ class _SignupScreensState extends State<SignupScreens> {
     return regex.hasMatch(email);
   }
 
+  //===== Validate Sign Up =====
+  void signUp(){
+    if(fromState.currentState!.validate()){
+      debugPrint(nameController.text);
+      debugPrint(emailController.text);
+      debugPrint(passwordController.text);
+      debugPrint(confirmPasswordController.text);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -107,6 +117,9 @@ class _SignupScreensState extends State<SignupScreens> {
                           if (value!.isEmpty) {
                             debugPrint('email is empty');
                             return 'email is empty';
+                          } else if (!isEmailValid(value)) {
+                            debugPrint('ERROR is email');
+                            return 'ERROR is email';
                           }
                           return null;
                         },
@@ -139,6 +152,9 @@ class _SignupScreensState extends State<SignupScreens> {
                           if (value!.isEmpty) {
                             debugPrint('password is empty');
                             return 'password is empty';
+                          }else if(value.length < 6){
+                            debugPrint('Password too short');
+                            return 'Password too short';
                           }
                           return null;
                         },
@@ -181,6 +197,9 @@ class _SignupScreensState extends State<SignupScreens> {
                           if (value!.isEmpty) {
                             debugPrint('Confirm password is empty');
                             return 'Confirm password is empty';
+                          }else if(passwordController != confirmPasswordController){
+                            debugPrint('Error: Password do not match');
+                            return 'Error: Password do not match';
                           }
                           return null;
                         },
@@ -220,10 +239,7 @@ class _SignupScreensState extends State<SignupScreens> {
                       //===== Button Submit Login =====
                       InkWell(
                         onTap: () {
-                         debugPrint(nameController.text);
-                         debugPrint(emailController.text);
-                         debugPrint(passwordController.text);
-                         debugPrint(confirmPasswordController.text);
+                          signUp();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
